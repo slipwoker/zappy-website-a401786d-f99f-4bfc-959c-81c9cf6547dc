@@ -280,8 +280,7 @@
         .nav-menu li:has(.sub-menu) > .menu-group-title, nav li:has(.sub-menu) > .menu-group-title, .navbar li:has(.sub-menu) > .menu-group-title, #navMenu li:has(.sub-menu) > .menu-group-title { flex: 1 !important; min-width: 0 !important; padding: 0 !important; line-height: inherit !important; }
         .nav-menu li:has(.sub-menu) > .sub-menu, nav li:has(.sub-menu) > .sub-menu, .navbar li:has(.sub-menu) > .sub-menu, #navMenu li:has(.sub-menu) > .sub-menu { flex-basis: 100% !important; width: 100% !important; }
         .nav-menu li:has(.sub-menu) > a [class*="chevron"], .nav-menu li:has(.sub-menu) > a [class*="arrow"], .nav-menu li:has(.sub-menu) > a .fa-chevron-down, .nav-menu li:has(.sub-menu) > a .fa-angle-down, nav li:has(.sub-menu) > a [class*="chevron"], nav li:has(.sub-menu) > a [class*="arrow"], #navMenu li:has(.sub-menu) > a [class*="chevron"], #navMenu li:has(.sub-menu) > a [class*="arrow"] { display: none !important; visibility: hidden !important; }
-        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: 44px !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: absolute !important; top: 50% !important; transform: translateY(-50%) !important; right: 0 !important; left: auto !important; z-index: 2 !important; }
-        [dir="rtl"] .mobile-submenu-toggle, html[lang="he"] .mobile-submenu-toggle, html[lang="ar"] .mobile-submenu-toggle { left: 0 !important; right: auto !important; }
+        .mobile-submenu-toggle { display: flex !important; align-items: center !important; justify-content: center !important; width: 44px !important; height: auto !important; background: transparent !important; border: none !important; cursor: pointer !important; color: var(--text-dark) !important; position: static !important; flex-shrink: 0 !important; align-self: stretch !important; z-index: 2 !important; padding: 0 !important; margin: 0 !important; }
         .mobile-submenu-toggle::after { content: '' !important; width: 0 !important; height: 0 !important; border-left: 6px solid transparent !important; border-right: 6px solid transparent !important; border-top: 7px solid currentColor !important; transition: transform 0.3s ease !important; }
         .mobile-submenu-toggle.expanded::after { transform: rotate(180deg) !important; }
         .sub-menu a { padding: 10px 0 !important; display: block !important; color: var(--text-dark) !important; }
@@ -398,7 +397,7 @@
                 </div>
                 <div class="checkout-accordion-body">
                   <div class="checkout-login-prompt" id="checkout-login-prompt">
-                    <span>Already have an account?</span>&nbsp;<a href="/login" class="checkout-login-link" id="checkout-login-link">Login here</a>
+                    <span>Already have an account?</span>&nbsp;<a href="/login" class="checkout-login-link" id="checkout-login-link">Sign in here</a>
                   </div>
                   <div class="checkout-logged-in" id="checkout-logged-in" style="display: none;">
                     <div class="checkout-logged-in-text">
@@ -410,18 +409,18 @@
                   </div>
                   <div class="checkout-form-fields">
                     <div class="input-wrapper">
-                      <label for="customer-name" class="checkout-field-label">Full Name</label>
+                      <label for="customer-name" class="checkout-field-label">Full Name *</label>
                       <input type="text" placeholder="Full Name" id="customer-name" required>
                       <span class="field-error" id="customer-name-error"></span>
                     </div>
                     <div class="input-wrapper">
-                      <label for="customer-phone" class="checkout-field-label">Phone</label>
+                      <label for="customer-phone" class="checkout-field-label">Mobile Number *</label>
                       <input type="tel" placeholder="Phone" id="customer-phone" required>
                       <span class="field-error" id="customer-phone-error"></span>
                     </div>
                     <div class="input-wrapper">
-                      <label for="customer-email" class="checkout-field-label">Email</label>
-                      <input type="email" placeholder="Email" id="customer-email" required>
+                      <label for="customer-email" class="checkout-field-label">Email *</label>
+                      <input type="email" placeholder="you@company.com" id="customer-email" required>
                       <span class="field-error" id="customer-email-error"></span>
                     </div>
                   </div>
@@ -443,25 +442,38 @@
                 <div class="checkout-accordion-body">
                   <div id="shipping-methods">Loading shipping methods...</div>
                   <span class="field-error" id="shipping-method-error"></span>
-                  <div id="shipping-address-section">
+                  <div id="shipping-address-section" style="display:none">
                     <div class="checkout-form-fields">
-                      <div class="input-wrapper">
-                        <label for="shipping-street" class="checkout-field-label">Street Address</label>
-                        <input type="text" placeholder="Street Address" id="shipping-street" required>
-                        <span class="field-error" id="shipping-street-error"></span>
+                      <input type="hidden" id="shipping-country" value="">
+                      <div class="input-wrapper input-full" id="state-wrapper" style="display:none">
+                        <label for="shipping-state" class="checkout-field-label" data-i18n="ecom_stateProvince">State / Province *</label>
+                        <div class="checkout-select-wrapper">
+                          <select id="shipping-state" class="checkout-select"></select>
+                          <svg class="checkout-select-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                        </div>
+                        <span class="field-error" id="shipping-state-error"></span>
                       </div>
-                      <div class="input-wrapper">
-                        <label for="shipping-apartment" class="checkout-field-label">Apt, Floor, Unit</label>
-                        <input type="text" placeholder="Apt, Floor, Unit" id="shipping-apartment">
+                      <div class="checkout-form-row">
+                        <div class="input-wrapper">
+                          <label for="shipping-city" class="checkout-field-label" data-i18n="ecom_city">City *</label>
+                          <input type="text" placeholder="City" id="shipping-city" required>
+                          <span class="field-error" id="shipping-city-error"></span>
+                        </div>
+                        <div class="input-wrapper">
+                          <label for="shipping-street" class="checkout-field-label" data-i18n="ecom_streetAndNumber">Street and Number *</label>
+                          <input type="text" placeholder="Street and Number" id="shipping-street" required>
+                          <span class="field-error" id="shipping-street-error"></span>
+                        </div>
                       </div>
-                      <div class="input-wrapper">
-                        <label for="shipping-city" class="checkout-field-label">City</label>
-                        <input type="text" placeholder="City" id="shipping-city" required>
-                        <span class="field-error" id="shipping-city-error"></span>
-                      </div>
-                      <div class="input-wrapper">
-                        <label for="shipping-zip" class="checkout-field-label">ZIP Code</label>
-                        <input type="text" placeholder="ZIP Code" id="shipping-zip">
+                      <div class="checkout-form-row">
+                        <div class="input-wrapper">
+                          <label for="shipping-apartment" class="checkout-field-label" data-i18n="ecom_apartmentExt">Apt, Floor, Building Code, Notes, Etc.</label>
+                          <input type="text" placeholder="Apt, Floor, Building Code, Notes, Etc." id="shipping-apartment">
+                        </div>
+                        <div class="input-wrapper">
+                          <label for="shipping-zip" class="checkout-field-label" data-i18n="ecom_zipPostal">Zip / Postal Code</label>
+                          <input type="text" placeholder="Zip / Postal Code" id="shipping-zip">
+                        </div>
                       </div>
                       <div class="save-address-wrapper">
                         <label class="save-address-label">
